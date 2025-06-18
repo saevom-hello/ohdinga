@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘 어디가 - AI가 매일 전화로 어르신께 갈만한 곳 알려드려요</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: #FFD93D;
+            color: #333;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: transform 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .problem-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .stat {
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .stat-desc {
+            margin-top: 10px;
+            color: #666;
+        }
+        
+        .solution-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .process {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .process-step {
+            text-align: center;
+            flex: 1;
+            margin: 20px;
+        }
+        
+        .icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .feature {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: center;
+            display: inline-block;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .feature p {
+            margin: 0;
+            font-size: 1.1em;
+        }
+        
+        .signup-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin: 20px 0;
+        }
+        
+        input[type="tel"] {
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .submit-button {
+            padding: 15px 40px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .submit-button:hover {
+            background-color: #5a67d8;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .process {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>오늘 어디가? 🏡</h1>
+            <p class="subtitle">AI가 매일 전화로 어르신께 갈만한 곳 알려드려요</p>
+            <a href="javascript:void(0)" class="cta-button" onclick="document.getElementById('signup').scrollIntoView({ behavior: 'smooth' });">무료 체험 신청하기</a>
+        </header>
+        
+        <section class="problem-section">
+            <h2>갈 곳 없어 공항과 지하철을 배회하는 어르신들</h2>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">213만명</div>
+                    <div class="stat-desc">전국 독거노인</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">3.5%</div>
+                    <div class="stat-desc">복지관 이용률</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">38%</div>
+                    <div class="stat-desc">혼자 사는 어르신</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">50.6%</div>
+                    <div class="stat-desc">배우자 사별 후<br>사회적응 어려움</div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 30px; color: #666;">
+                특히 배우자를 잃은 어르신들은 우울감과 고립감으로 더욱 힘들어하십니다
+            </p>
+        </section>
+        
+        <section class="solution-section">
+            <h2>이제 전화 한 통으로 해결하세요</h2>
+            <div class="process">
+                <div class="process-step">
+                    <div class="icon">📞</div>
+                    <h3>매일 오전 9시</h3>
+                    <p>AI가 직접 전화드려요</p>
+                </div>
+                <div class="process-step">
+                    <div class="icon">🎵</div>
+                    <h3>3곳 음성 안내</h3>
+                    <p>오늘의 문화행사 추천</p>
+                </div>
+                <div class="process-step">
+                    <div class="icon">📱</div>
+                    <h3>문자로 상세정보</h3>
+                    <p>교통편까지 친절하게</p>
+                </div>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>✅ 복잡한 앱 X</h3>
+                    <p>전화로만 OK</p>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 30px; font-size: 1.1em; color: #667eea; font-weight: bold;">
+                💜 배우자 사별 후 혼자 계신 어르신들을 위한 맞춤 서비스
+            </p>
+        </section>
+        
+        <section class="signup-section" id="signup">
+            <h2>우리 부모님도 신청하기</h2>
+            <p style="margin-bottom: 10px;">서비스 출시 시 가장 먼저 알려드릴게요</p>
+            <p style="font-size: 0.9em; color: #667eea; margin-bottom: 30px;">
+                <strong>대상:</strong> 만 65세 이상 배우자 사별 어르신, 시니어 문화행사 정보가 필요하신 분
+            </p>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <input type="tel" id="phoneNumber" placeholder="전화번호 (010-0000-0000)">
+                </div>
+                <button type="submit" class="submit-button">무료 체험 신청</button>
+            </form>
+            
+            <p style="margin-top: 20px; color: #666; font-size: 0.9em;">
+                * 현재 경기 안양 지역만 서비스 준비 중입니다
+            </p>
+        </section>
+    </div>
+    
+    <script>
+        // Google Apps Script URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysHvW34jcrl1dUhodnzTLh9fI_-k9kTIf-xHuWlDeo0Xdrg5j3oW5-PFdryJzf9Ahp/exec';
+        
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const submitButton = e.target.querySelector('.submit-button');
+            
+            // 전화번호 입력 확인
+            if (!phoneNumber) {
+                alert('신청받을 번호를 적어주세요');
+                return;
+            }
+            
+            // 버튼 비활성화 및 로딩 표시
+            submitButton.disabled = true;
+            submitButton.textContent = '신청 중...';
+            
+            try {
+                // Google Apps Script로 데이터 전송
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // CORS 에러 방지
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phone: phoneNumber })
+                });
+                
+                // 성공 메시지
+                alert('신청 완료되었습니다.');
+                this.reset();
+                
+            } catch (error) {
+                alert('신청 중 오류가 발생했습니다. 다시 시도해주세요.');
+                console.error('Error:', error);
+            } finally {
+                // 버튼 다시 활성화
+                submitButton.disabled = false;
+                submitButton.textContent = '무료 체험 신청';
+            }
+        });
+        
+        // 부드러운 스크롤 기능 (URL에 #signup 안 나타나게)
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('signup').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

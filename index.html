@@ -283,6 +283,40 @@
                 <div class="form-group">
                     <input type="tel" id="phoneNumber" placeholder="전화번호 (010-0000-0000)">
                 </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 10px; display: block;">
+                        월 얼마까지 지불 가능하신가요?
+                    </label>
+                    <select id="priceRange" style="width: 100%; padding: 15px; font-size: 1.1em; border: 2px solid #ddd; border-radius: 10px;">
+                        <option value="">선택해주세요</option>
+                        <option value="free">무료만 이용</option>
+                        <option value="3000">월 3,000원</option>
+                        <option value="5000">월 5,000원</option>
+                        <option value="10000">월 10,000원</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 10px; display: block;">
+                        어떤 방식을 선호하시나요?
+                    </label>
+                    <div style="text-align: left; max-width: 300px; margin: 0 auto;">
+                        <label style="display: block; margin: 10px 0; cursor: pointer;">
+                            <input type="radio" name="preference" value="phone" style="margin-right: 10px;">
+                            전화로 안내받기
+                        </label>
+                        <label style="display: block; margin: 10px 0; cursor: pointer;">
+                            <input type="radio" name="preference" value="kakao" style="margin-right: 10px;">
+                            카카오톡 메시지
+                        </label>
+                        <label style="display: block; margin: 10px 0; cursor: pointer;">
+                            <input type="radio" name="preference" value="both" style="margin-right: 10px;">
+                            둘 다 좋아요
+                        </label>
+                    </div>
+                </div>
+                
                 <button type="submit" class="submit-button">무료 체험 신청</button>
             </form>
             
@@ -300,6 +334,8 @@
             e.preventDefault();
             
             const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const priceRange = document.getElementById('priceRange').value;
+            const preference = document.querySelector('input[name="preference"]:checked')?.value || '';
             const submitButton = e.target.querySelector('.submit-button');
             
             // 전화번호 입력 확인
@@ -320,7 +356,11 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ phone: phoneNumber })
+                    body: JSON.stringify({ 
+                        phone: phoneNumber,
+                        price: priceRange,
+                        preference: preference
+                    })
                 });
                 
                 // 성공 메시지

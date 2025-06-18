@@ -288,13 +288,15 @@
                     <label style="font-weight: bold; margin-bottom: 10px; display: block;">
                         월 얼마까지 지불 가능하신가요?
                     </label>
-                    <select id="priceRange" style="width: 100%; padding: 15px; font-size: 1.1em; border: 2px solid #ddd; border-radius: 10px;">
+                    <select id="priceRange" style="width: 100%; padding: 15px; font-size: 1.1em; border: 2px solid #ddd; border-radius: 10px;" onchange="checkOtherPrice()">
                         <option value="">선택해주세요</option>
-                        <option value="free">무료만 이용</option>
+                        <option value="0">무료만 이용</option>
                         <option value="3000">월 3,000원</option>
                         <option value="5000">월 5,000원</option>
                         <option value="10000">월 10,000원</option>
+                        <option value="other">기타 금액</option>
                     </select>
+                    <input type="number" id="customPrice" placeholder="직접 입력 (원)" style="width: 100%; padding: 15px; font-size: 1.1em; border: 2px solid #ddd; border-radius: 10px; margin-top: 10px; display: none;">
                 </div>
                 
                 <div class="form-group" style="margin-top: 20px;">
@@ -328,15 +330,41 @@
     
     <script>
         // Google Apps Script URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysHvW34jcrl1dUhodnzTLh9fI_-k9kTIf-xHuWlDeo0Xdrg5j3oW5-PFdryJzf9Ahp/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwl7gTawOiVQNZrAWQKK0B_SOENZEG_hWRIrxO1GAAXpk2mP0yySdr4QMKKMKoePr2w/exec';
+        
+        // 기타 금액 선택 시 입력란 표시
+        function checkOtherPrice() {
+            const priceSelect = document.getElementById('priceRange');
+            const customPriceInput = document.getElementById('customPrice');
+            
+            if (priceSelect.value === 'other') {
+                customPriceInput.style.display = 'block';
+                customPriceInput.required = true;
+            } else {
+                customPriceInput.style.display = 'none';
+                customPriceInput.required = false;
+                customPriceInput.value = '';
+            }
+        }
         
         document.getElementById('signupForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const phoneNumber = document.getElementById('phoneNumber').value.trim();
-            const priceRange = document.getElementById('priceRange').value;
+            const priceSelect = document.getElementById('priceRange').value;
+            const customPrice = document.getElementById('customPrice').value;
             const preference = document.querySelector('input[name="preference"]:checked')?.value || '';
             const submitButton = e.target.querySelector('.submit-button');
+            
+            // 최종 가격 결정
+            let finalPrice = priceSelect;
+            if (priceSelect === 'other') {
+                if (!customPrice) {
+                    alert('기타 금액을 입력해주세요');
+                    return;
+                }
+                finalPrice = customPrice;
+            }
             
             // 전화번호 입력 확인
             if (!phoneNumber) {
@@ -358,7 +386,7 @@
                     },
                     body: JSON.stringify({ 
                         phone: phoneNumber,
-                        price: priceRange,
+                        price: finalPrice,
                         preference: preference
                     })
                 });
@@ -366,6 +394,7 @@
                 // 성공 메시지
                 alert('신청 완료되었습니다.');
                 this.reset();
+                document.getElementById('customPrice').style.display = 'none';
                 
             } catch (error) {
                 alert('신청 중 오류가 발생했습니다. 다시 시도해주세요.');

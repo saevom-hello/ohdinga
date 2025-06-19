@@ -180,6 +180,13 @@
             max-width: 300px;
         }
         
+        input[type="tel"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
         .submit-button {
             padding: 15px 40px;
             background-color: #667eea;
@@ -373,14 +380,17 @@
             
             <form id="signupForm">
                 <div class="form-group">
-                    <input type="tel" id="phoneNumber" placeholder="전화번호 (010-0000-0000)">
+                    <label style="font-weight: bold; margin-bottom: 10px; display: block;">
+                        전화번호 <span style="color: red;">*</span>
+                    </label>
+                    <input type="tel" id="phoneNumber" placeholder="전화번호 (010-0000-0000)" required>
                 </div>
                 
                 <div class="form-group" style="margin-top: 20px;">
                     <label style="font-weight: bold; margin-bottom: 10px; display: block;">
-                        월 얼마까지 지불 가능하신가요?
+                        월 얼마까지 지불 가능하신가요? <span style="color: red;">*</span>
                     </label>
-                    <select id="priceRange" style="width: 100%; padding: 15px; font-size: 1.1em; border: 2px solid #ddd; border-radius: 10px;" onchange="checkOtherPrice()">
+                    <select id="priceRange" style="width: 100%; padding: 15px; font-size: 1.1em; border: 2px solid #ddd; border-radius: 10px;" onchange="checkOtherPrice()" required>
                         <option value="">선택해주세요</option>
                         <option value="0">무료만 이용</option>
                         <option value="3000">월 3,000원</option>
@@ -393,23 +403,34 @@
                 
                 <div class="form-group" style="margin-top: 20px;">
                     <label style="font-weight: bold; margin-bottom: 10px; display: block;">
-                        어떤 방식을 선호하시나요?
+                        어떤 방식을 선호하시나요? <span style="color: red;">*</span>
                     </label>
                     <div style="text-align: left; max-width: 300px; margin: 0 auto;">
                         <label style="display: block; margin: 10px 0; cursor: pointer;">
-                            <input type="radio" name="preference" value="phone" style="margin-right: 10px;">
+                            <input type="radio" name="preference" value="phone" style="margin-right: 10px;" required>
                             전화로 안내받기
                         </label>
                         <label style="display: block; margin: 10px 0; cursor: pointer;">
-                            <input type="radio" name="preference" value="kakao" style="margin-right: 10px;">
+                            <input type="radio" name="preference" value="kakao" style="margin-right: 10px;" required>
                             카카오톡 메시지
                         </label>
                         <label style="display: block; margin: 10px 0; cursor: pointer;">
-                            <input type="radio" name="preference" value="both" style="margin-right: 10px;">
+                            <input type="radio" name="preference" value="both" style="margin-right: 10px;" required>
                             둘 다 좋아요
                         </label>
                     </div>
                 </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 10px; display: block;">
+                        추가 의견 <span style="color: #999; font-weight: normal;">(선택사항)</span>
+                    </label>
+                    <textarea id="feedback" placeholder="서비스에 대한 의견이나 요청사항을 자유롭게 적어주세요" style="width: 100%; padding: 15px; font-size: 1em; border: 2px solid #ddd; border-radius: 10px; min-height: 100px; resize: vertical;"></textarea>
+                </div>
+                
+                <p style="margin-top: 10px; color: #666; font-size: 0.9em;">
+                    <span style="color: red;">*</span> 표시는 필수 입력 항목입니다.
+                </p>
                 
                 <button type="submit" class="submit-button">무료 체험 신청</button>
             </form>
@@ -422,7 +443,7 @@
     
     <script>
         // Google Apps Script URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwl7gTawOiVQNZrAWQKK0B_SOENZEG_hWRIrxO1GAAXpk2mP0yySdr4QMKKMKoePr2w/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyNv5EH_5SIqTvVvq49usJ23JD_0iQdqSeSSMuVnuNu94aFP-DJjhwM9b2ewVJLOMAq/exec';
         
         // 기타 금액 선택 시 입력란 표시
         function checkOtherPrice() {
@@ -446,6 +467,7 @@
             const priceSelect = document.getElementById('priceRange').value;
             const customPrice = document.getElementById('customPrice').value;
             const preference = document.querySelector('input[name="preference"]:checked')?.value || '';
+            const feedback = document.getElementById('feedback').value.trim();
             const submitButton = e.target.querySelector('.submit-button');
             
             // 최종 가격 결정
@@ -458,9 +480,21 @@
                 finalPrice = customPrice;
             }
             
-            // 전화번호 입력 확인
+            // 필수 항목 검증
             if (!phoneNumber) {
-                alert('신청받을 번호를 적어주세요');
+                alert('전화번호를 입력해주세요');
+                document.getElementById('phoneNumber').focus();
+                return;
+            }
+            
+            if (!priceSelect) {
+                alert('희망 가격을 선택해주세요');
+                document.getElementById('priceRange').focus();
+                return;
+            }
+            
+            if (!preference) {
+                alert('선호하는 방식을 선택해주세요');
                 return;
             }
             
@@ -479,7 +513,8 @@
                     body: JSON.stringify({ 
                         phone: phoneNumber,
                         price: finalPrice,
-                        preference: preference
+                        preference: preference,
+                        feedback: feedback
                     })
                 });
                 
